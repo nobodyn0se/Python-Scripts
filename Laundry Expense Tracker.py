@@ -13,8 +13,12 @@ class Laundry:
         return s
 
     def first_time(self):
-        stime = input("Are you entering data for the first time? (Yes or No) \n")
-        if stime.lower() == "yes":
+        try:
+            f = open(self.path, 'r')
+            f.close()
+
+        except FileNotFoundError:
+            print("Creating storage file for the first time\n")
             with open(self.path, 'w') as f:
                 f.write('0')
         else:
