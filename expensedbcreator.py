@@ -2,7 +2,7 @@ import sqlite3
 import os
 import datetime
 
-con = sqlite3.connect("C:/Users/" + os.getlogin() + "/Desktop/Python/Databases/Expense.sqlite")
+con = sqlite3.connect("C:/Users/" + os.getlogin() + "/Desktop/Expense.sqlite")
 cur = con.cursor()
 
 
@@ -29,8 +29,10 @@ def display():
     print("------")
     print("Total expense so far: {}".format(s.fetchone()[0]))
     print("------")
+
     for _ in cur.execute('''SELECT Purpose, Expenditure, Date FROM Expense ORDER BY Expenditure DESC LIMIT 10'''):
         print("{} : Rs.{} on {}".format(str(_[0]), _[1], str(_[2])))
+
     cur.close()
 
 
