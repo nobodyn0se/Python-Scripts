@@ -16,8 +16,9 @@ def expense():
         display()
         exit(0)
 
-    cur.execute('''CREATE TABLE IF NOT EXISTS Expense (Purpose TEXT, Expenditure INTEGER)''')
-    cur.execute('''INSERT INTO Expense (Purpose, Expenditure) VALUES(?, ?)''', (p, int(n)))
+    cur.execute('''CREATE TABLE IF NOT EXISTS Expense (Purpose TEXT, Expenditure INTEGER, Date TEXT)''')
+    cur.execute('''INSERT INTO Expense (Purpose, Expenditure, Date) VALUES(?, ?, ?)''',
+                (p, int(n), datetime.date.today().strftime("%d %b %Y")))
 
     con.commit()
     display()
@@ -28,8 +29,10 @@ def display():
     print("------")
     print("Total expense so far: {}".format(s.fetchone()[0]))
     print("------")
-    for _ in cur.execute('''SELECT Purpose, Expenditure FROM Expense ORDER BY Expenditure DESC LIMIT 10'''):
-        print("{} : Rs.{}".format(str(_[0]), _[1]))
+
+    for _ in cur.execute('''SELECT Purpose, Expenditure, Date FROM Expense ORDER BY Expenditure DESC LIMIT 10'''):
+        print("{} : Rs.{} on {}".format(str(_[0]), _[1], str(_[2])))
+
     cur.close()
 
 
